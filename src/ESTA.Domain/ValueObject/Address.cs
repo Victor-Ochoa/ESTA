@@ -1,10 +1,8 @@
 ﻿namespace ESTA.Domain.ValueObject;
 
-public record struct Address
+public readonly record struct Address
 {
-    public Address()
-    {
-    }
+    public Address() { }
 
     public string Street { get; init; } = string.Empty;
     public string Number { get; init; } = string.Empty;

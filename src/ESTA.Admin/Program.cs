@@ -10,7 +10,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
 
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 
 builder.AddNpgsqlDbContext<EstaDbContext>(connectionName: "admindb");
 

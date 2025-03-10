@@ -6,6 +6,4 @@ namespace ESTA.Admin.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ProductsController(IRepositoryEntity<Product> repository) : BaseCRUDController<Product>(repository)
-{
-}
+public class ProductsController(IRepositoryEntity<Product> repository) : BaseCRUDController<Product>(repository);

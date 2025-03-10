@@ -2,6 +2,7 @@ var builder = DistributedApplication.CreateBuilder(args);
 
 var postgres = builder.AddPostgres("postgres")
     .WithLifetime(ContainerLifetime.Persistent)
+    .WithDataVolume("pgdata")
     .WithPgWeb();
 
 

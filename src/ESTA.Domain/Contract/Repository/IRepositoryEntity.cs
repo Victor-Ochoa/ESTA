@@ -4,7 +4,7 @@ namespace ESTA.Domain.Contract.Repository;
 
 public interface IRepositoryEntity<IEntity> where IEntity : Base.Entity
 {
-    Task<IList<IEntity>> GetAll(Expression<Func<IEntity, bool>> predicate = null);
+    Task<IList<IEntity>> GetAll(Expression<Func<IEntity, bool>>? predicate = null);
     Task<IEntity> Get(Guid id);
     Task<IEntity> Get(Expression<Func<IEntity, bool>> predicate);
     Task<IEntity> Create(IEntity entity);
