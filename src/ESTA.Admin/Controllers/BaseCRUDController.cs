@@ -52,8 +52,7 @@ public abstract class BaseCRUDController<IEntity>(IRepositoryEntity<IEntity> rep
         return NoContent();
     }
 
-    // POST: api/Aroma
-    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+    // POST: api/Entity
     [HttpPost]
     public async Task<ActionResult<IEntity>> PostEntity(IEntity entity)
     {
@@ -65,7 +64,7 @@ public abstract class BaseCRUDController<IEntity>(IRepositoryEntity<IEntity> rep
         return CreatedAtAction("GetEntity", new { id = entity.Id }, entity);
     }
 
-    // DELETE: api/Aroma/5
+    // DELETE: api/Entity/5
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteEntity(Guid id)
     {
