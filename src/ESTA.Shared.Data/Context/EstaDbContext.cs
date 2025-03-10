@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ESTA.Shared.Data.Context;
 
-public class EstaDbContext : DbContext
+public class EstaDbContext(DbContextOptions<EstaDbContext> options) : DbContext(options)
 {
     public DbSet<Seller> Sellers { get; set; }
     public DbSet<Product> Products { get; set; }

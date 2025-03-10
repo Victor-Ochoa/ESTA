@@ -1,17 +1,26 @@
 ﻿
+using ESTA.Domain.Contract.Repository;
+using ESTA.Shared.Data.Context;
+using ESTA.Shared.Data.Repository;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.AddServiceDefaults();
+
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+
+builder.AddNpgsqlDbContext<EstaDbContext>(connectionName: "admindb");
+
+builder.Services.AddTransient(typeof(IRepositoryEntity<>), typeof(EntityRepository<>));
+
 builder.Services.AddOpenApi();
 
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen();
-
-
 
 var app = builder.Build();
 
@@ -25,12 +34,20 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+
+
 };
 
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.MapControllers();
+app.MapControllers(); 
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<EstaDbContext>();
+    await dbContext.Database.EnsureCreatedAsync();
+}
 
 app.Run();
