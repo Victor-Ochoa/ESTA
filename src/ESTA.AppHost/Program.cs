@@ -12,4 +12,7 @@ var apiAdimn = builder.AddProject<Projects.ESTA_Admin>("apiadmin")
                             .WaitFor(admindb);
 
 
+builder.AddProject<Projects.ESTA_OrderApi>("esta-orderapi");
+
+
 builder.Build().Run();

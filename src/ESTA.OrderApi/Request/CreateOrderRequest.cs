@@ -1,14 +1,10 @@
 ﻿using ESTA.Domain.ValueObject;
 
-namespace ESTA.Domain.Event;
+namespace ESTA.OrderApi.Request;
 
-public record OrderCreated : Base.Event
+public record CreateOrderRequest
 {
-    public Guid Id { get; set; } = Guid.CreateVersion7();
-
     public Guid Seller { get; set; }
-
     public IList<Guid> Products { get; set; } = [];
-
     public Address DeliveryAddress { get; set; }
 }

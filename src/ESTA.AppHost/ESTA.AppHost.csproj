@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ESTA.Admin\ESTA.Admin.csproj" />
+    <ProjectReference Include="..\ESTA.OrderApi\ESTA.OrderApi.csproj" />
   </ItemGroup>
 
 </Project>
