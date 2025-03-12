@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ESTA.Domain\ESTA.Domain.csproj" />
+    <ProjectReference Include="..\ESTA.Domain.Admin\ESTA.Domain.Admin.csproj" />
   </ItemGroup>
 
 </Project>

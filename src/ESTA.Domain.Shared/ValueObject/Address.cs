@@ -1,4 +1,4 @@
-﻿namespace ESTA.Domain.ValueObject;
+﻿namespace ESTA.Domain.Shared.ValueObject;
 
 public readonly record struct Address
 {

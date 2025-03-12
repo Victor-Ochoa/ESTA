@@ -1,4 +1,4 @@
-﻿using ESTA.Domain.ValueObject;
+﻿using ESTA.Domain.Shared.ValueObject;
 
 namespace ESTA.OrderApi.Request;
 

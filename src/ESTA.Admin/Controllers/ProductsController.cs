@@ -1,5 +1,5 @@
-﻿using ESTA.Domain.Contract.Repository;
-using ESTA.Domain.Entity;
+﻿using ESTA.Domain.Entity;
+using ESTA.Domain.Shared.Contract.Repository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ESTA.Admin.Controllers;

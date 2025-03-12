@@ -1,5 +1,5 @@
-using ESTA.Domain.Entity;
-using ESTA.Domain.Event;
+using ESTA.Domain.Order.Entity;
+using ESTA.Domain.Order.Event;
 using ESTA.OrderApi.Projection;
 using ESTA.OrderApi.Request;
 using Marten;
@@ -57,7 +57,7 @@ app.MapGet("order/{orderid:guid}", async ([FromRoute] Guid orderId, [FromService
 app.MapPost("order", async ([FromServices] IDocumentStore store, [FromBody] CreateOrderRequest request) =>
 {
 
-    var order = new ESTA.Domain.Event.OrderCreated
+    var order = new OrderCreated
     {
         Seller = request.Seller,
         OrderItems = [.. request.Products.Select(x => new OrderCreatedItem { ProductId = x.ProductId, Quantity = x.Quantity })],

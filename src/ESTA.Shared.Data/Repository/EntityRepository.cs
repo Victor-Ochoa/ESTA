@@ -1,5 +1,5 @@
-﻿using ESTA.Domain.Base;
-using ESTA.Domain.Contract.Repository;
+﻿using ESTA.Domain.Shared.Base;
+using ESTA.Domain.Shared.Contract.Repository;
 using ESTA.Shared.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;

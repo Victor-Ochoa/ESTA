@@ -1,4 +1,4 @@
-﻿using ESTA.Domain.Contract.Repository;
+﻿using ESTA.Domain.Shared.Contract.Repository;
 using ESTA.Shared.Data.Context;
 using ESTA.Shared.Data.Repository;
 using Microsoft.Extensions.DependencyInjection;

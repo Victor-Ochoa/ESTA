@@ -1,4 +1,4 @@
-﻿namespace ESTA.Domain.Base;
+﻿namespace ESTA.Domain.Shared.Base;
 
 public abstract class Entity
 {

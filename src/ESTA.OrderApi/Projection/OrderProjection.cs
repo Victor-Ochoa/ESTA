@@ -1,6 +1,6 @@
-﻿using ESTA.Domain.Entity;
-using ESTA.Domain.Enum;
-using ESTA.Domain.Event;
+﻿using ESTA.Domain.Order.Entity;
+using ESTA.Domain.Order.Enum;
+using ESTA.Domain.Order.Event;
 using Marten.Events.Aggregation;
 
 namespace ESTA.OrderApi.Projection

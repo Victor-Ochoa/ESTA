@@ -1,8 +1,8 @@
-﻿using ESTA.Domain.ValueObject;
+﻿using ESTA.Domain.Shared.ValueObject;
 
-namespace ESTA.Domain.Event;
+namespace ESTA.Domain.Order.Event;
 
-public record OrderCreated : Base.Event
+public record OrderCreated : Shared.Base.Event
 {
     public Guid Id { get; set; } = Guid.CreateVersion7();
 

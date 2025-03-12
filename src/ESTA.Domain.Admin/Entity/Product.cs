@@ -1,6 +1,6 @@
 ﻿namespace ESTA.Domain.Entity;
 
-public class Product : Base.Entity
+public class Product : Shared.Base.Entity
 {
     public string Name { get; set; } = string.Empty;
     public decimal Price { get; set; } = 0;

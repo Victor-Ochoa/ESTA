@@ -14,7 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ESTA.Domain\ESTA.Domain.csproj" />
+    <ProjectReference Include="..\ESTA.Domain.Order\ESTA.Domain.Order.csproj" />
+    <ProjectReference Include="..\ESTA.Domain.Shared\ESTA.Domain.Shared.csproj" />
     <ProjectReference Include="..\ESTA.ServiceDefaults\ESTA.ServiceDefaults.csproj" />
   </ItemGroup>
 

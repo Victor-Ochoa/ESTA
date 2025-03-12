@@ -1,10 +1,10 @@
-﻿using ESTA.Domain.Enum;
-using ESTA.Domain.Event;
-using ESTA.Domain.ValueObject;
+﻿using ESTA.Domain.Order.Enum;
+using ESTA.Domain.Order.Event;
+using ESTA.Domain.Shared.ValueObject;
 
-namespace ESTA.Domain.Entity;
+namespace ESTA.Domain.Order.Entity;
 
-public class Order : Base.Entity
+public class Order : Shared.Base.Entity
 {
     public IList<OrderItem> Products { get; set; } = [];
     public required string SellerOpenId { get; set; }

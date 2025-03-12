@@ -1,8 +1,9 @@
-﻿using System.Linq.Expressions;
+﻿using ESTA.Domain.Shared.Base;
+using System.Linq.Expressions;
 
-namespace ESTA.Domain.Contract.Repository;
+namespace ESTA.Domain.Shared.Contract.Repository;
 
-public interface IRepositoryEntity<IEntity> where IEntity : Base.Entity
+public interface IRepositoryEntity<IEntity> where IEntity : Entity
 {
     Task<IList<IEntity>> GetAll(Expression<Func<IEntity, bool>>? predicate = null);
     Task<IEntity> Get(Guid id);
