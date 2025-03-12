@@ -16,9 +16,9 @@ builder.AddNpgsqlDataSource(connectionName: "admindb");
 
 builder.Services.AddMarten(options =>
     {
-        options.UseSystemTextJsonForSerialization();
-
         options.AutoCreateSchemaObjects = AutoCreate.All;
+
+        options.UseSystemTextJsonForSerialization();
 
         options.Projections.Add<OrderProjection>(Marten.Events.Projections.ProjectionLifecycle.Inline);
     })
@@ -60,7 +60,7 @@ app.MapPost("order", async ([FromServices] IDocumentStore store, [FromBody] Crea
     var order = new ESTA.Domain.Event.OrderCreated
     {
         Seller = request.Seller,
-        Products = request.Products,
+        OrderItems = [.. request.Products.Select(x => new OrderCreatedItem { ProductId = x.ProductId, Quantity = x.Quantity })],
         DeliveryAddress = request.DeliveryAddress
     };
 

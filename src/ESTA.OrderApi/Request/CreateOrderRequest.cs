@@ -4,7 +4,14 @@ namespace ESTA.OrderApi.Request;
 
 public record CreateOrderRequest
 {
-    public Guid Seller { get; set; }
-    public IList<Guid> Products { get; set; } = [];
+    public string Seller { get; set; }
+    public IList<CreateOrderItemRequest> Products { get; set; } = [];
     public Address DeliveryAddress { get; set; }
+}
+
+public record CreateOrderItemRequest
+{
+    public Guid ProductId { get; set; }
+    public int Quantity { get; set; }
+
 }

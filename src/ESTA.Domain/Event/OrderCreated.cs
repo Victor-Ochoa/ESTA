@@ -6,9 +6,17 @@ public record OrderCreated : Base.Event
 {
     public Guid Id { get; set; } = Guid.CreateVersion7();
 
-    public Guid Seller { get; set; }
+    public string Seller { get; set; }
 
-    public IList<Guid> Products { get; set; } = [];
+    public IList<OrderCreatedItem> OrderItems { get; set; } = [];
 
     public Address DeliveryAddress { get; set; }
+}
+
+public record OrderCreatedItem
+{
+    public Guid ProductId { get; set; }
+    public int Quantity { get; set; }
+
+    
 }

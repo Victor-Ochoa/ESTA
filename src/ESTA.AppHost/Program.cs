@@ -5,16 +5,16 @@ var postgres = builder.AddPostgres("postgres")
     .WithDataVolume("pgdata")
     .WithPgWeb();
 
-
 var admindb = postgres.AddDatabase("admindb");
+
+builder.AddProject<Projects.ESTA_OrderApi>("orderapi")
+                            .WithReference(admindb)
+                            .WaitFor(admindb);
+
 var apiAdimn = builder.AddProject<Projects.ESTA_Admin>("apiadmin")
                             .WithReference(admindb)
                             .WaitFor(admindb);
 
-
-builder.AddProject<Projects.ESTA_OrderApi>("esta-orderapi")
-                            .WithReference(admindb)
-                            .WaitFor(admindb);
 
 
 builder.Build().Run();

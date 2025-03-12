@@ -6,8 +6,8 @@ namespace ESTA.Domain.Entity;
 
 public class Order : Base.Entity
 {
-    public IList<Product> Products { get; set; } = [];
-    public required Seller Seller { get; set; }
+    public IList<OrderItem> Products { get; set; } = [];
+    public required string SellerOpenId { get; set; }
     public Address DeliveryAddress { get; set; }
     public DateTime? DispatchedAtUtc { get; set; }
     public DateTime? OrderOutForDeliveryAtUtc { get; set; }
@@ -17,8 +17,8 @@ public class Order : Base.Entity
     public void Apply(OrderCreated created)
     {
         OrderStatus = EOrderStatus.Created;
-        Products = [.. created.Products.Select(x => new Product { Id = x})];
-        Seller = new Seller { Id = created.Seller };
+        Products = [.. created.OrderItems.Select(x => new OrderItem { ProductId = x.ProductId, Quantity = x.Quantity})];
+        SellerOpenId =  created.Seller;
         DeliveryAddress = created.DeliveryAddress;
     }
 

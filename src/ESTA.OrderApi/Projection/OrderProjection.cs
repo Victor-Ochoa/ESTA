@@ -10,8 +10,8 @@ namespace ESTA.OrderApi.Projection
         public void Apply(OrderCreated created, Order order)
         {
             order.OrderStatus = EOrderStatus.Created;
-            order.Products = [.. created.Products.Select(x => new Product { Id = x })];
-            order.Seller = new Seller { Id = created.Seller };
+            order.Products = [.. created.OrderItems.Select(x => new OrderItem { ProductId = x.ProductId, Quantity = x.Quantity })];
+            order.SellerOpenId = created.Seller;
             order.DeliveryAddress = created.DeliveryAddress;
         }
 
