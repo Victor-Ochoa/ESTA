@@ -1,7 +1,5 @@
-﻿
-using ESTA.Domain.Contract.Repository;
+﻿using ESTA.Shared.Data;
 using ESTA.Shared.Data.Context;
-using ESTA.Shared.Data.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,9 +9,7 @@ builder.AddServiceDefaults();
 
 builder.Services.AddControllers();
 
-builder.AddNpgsqlDbContext<EstaDbContext>(connectionName: "admindb");
-
-builder.Services.AddTransient(typeof(IRepositoryEntity<>), typeof(EntityRepository<>));
+builder.AddAdminRepository();
 
 builder.Services.AddOpenApi();
 
