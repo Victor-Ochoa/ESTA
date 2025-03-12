@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESTA.Domain.Shared", "src\E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESTA.Domain.Order", "src\ESTA.Domain.Order\ESTA.Domain.Order.csproj", "{B6156679-6A64-4F2B-9E68-A8B29EF4EE10}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESTA.Shared.EventData", "src\ESTA.Shared.EventData\ESTA.Shared.EventData.csproj", "{7C620D31-FF3A-4A58-8A13-C050E4C710D2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,6 +67,10 @@ Global
 		{B6156679-6A64-4F2B-9E68-A8B29EF4EE10}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6156679-6A64-4F2B-9E68-A8B29EF4EE10}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6156679-6A64-4F2B-9E68-A8B29EF4EE10}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C620D31-FF3A-4A58-8A13-C050E4C710D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C620D31-FF3A-4A58-8A13-C050E4C710D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C620D31-FF3A-4A58-8A13-C050E4C710D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C620D31-FF3A-4A58-8A13-C050E4C710D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -79,6 +85,7 @@ Global
 		{EB82C926-7D93-4A26-A3C7-FDCEA3D733AF} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{D2ACBEC7-EE07-4D38-A12C-37D9962FF18C} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{B6156679-6A64-4F2B-9E68-A8B29EF4EE10} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{7C620D31-FF3A-4A58-8A13-C050E4C710D2} = {31718A6D-ED1B-43CB-BB06-98028A994D45}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {29DAF103-220F-40FC-9058-C084D9D47E12}

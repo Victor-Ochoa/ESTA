@@ -1,10 +1,9 @@
 using ESTA.Domain.Order.Entity;
 using ESTA.Domain.Order.Event;
-using ESTA.OrderApi.Projection;
 using ESTA.OrderApi.Request;
-using Marten;
 using Microsoft.AspNetCore.Mvc;
-using Weasel.Core;
+using ESTA.Shared.EventData;
+using ESTA.Domain.Shared.Contract.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,17 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
-builder.AddNpgsqlDataSource(connectionName: "admindb");
-
-builder.Services.AddMarten(options =>
-    {
-        options.AutoCreateSchemaObjects = AutoCreate.All;
-
-        options.UseSystemTextJsonForSerialization();
-
-        options.Projections.Add<OrderProjection>(Marten.Events.Projections.ProjectionLifecycle.Inline);
-    })
-    .UseNpgsqlDataSource();
+builder.AddEventRepository();
 
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
@@ -39,22 +28,22 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapGet("orders", async ([FromServices] IQuerySession session) =>
+app.MapGet("orders", async ([FromServices] IRepositoryEvent<Order> repository) =>
 {
-    var orders = await session.Query<Order>().ToListAsync();
+    var orders = await repository.GetAll();
     return Results.Ok(orders);
 });
 
-app.MapGet("order/{orderid:guid}", async ([FromRoute] Guid orderId, [FromServices] IQuerySession session) =>
+app.MapGet("order/{orderid:guid}", async ([FromRoute] Guid orderId, [FromServices] IRepositoryEvent<Order> repository) =>
 {
-    var order = await session.LoadAsync<Order>(orderId);
+    var order = await repository.Get(orderId);
 
     return order is not null
         ? Results.Ok(order)
         : Results.NotFound();
 });
 
-app.MapPost("order", async ([FromServices] IDocumentStore store, [FromBody] CreateOrderRequest request) =>
+app.MapPost("order", async ([FromServices] IRepositoryEvent<Order> repository, [FromBody] CreateOrderRequest request) =>
 {
 
     var order = new OrderCreated
@@ -64,13 +53,10 @@ app.MapPost("order", async ([FromServices] IDocumentStore store, [FromBody] Crea
         DeliveryAddress = request.DeliveryAddress
     };
 
-    await using var session = store.LightweightSession();
-    session.Events.StartStream<Order>(order.Id, order);
-    await session.SaveChangesAsync();
-    return Results.Ok(order);
+    return Results.Ok(await repository.Create(order, order.Id));
 });
 
-app.MapPost("order/{orderid:guid}/Address", async ([FromRoute] Guid orderId, [FromBody] DeliveryAddressUpdateRequest request, [FromServices] IDocumentStore store) =>
+app.MapPost("order/{orderid:guid}/Address", async ([FromRoute] Guid orderId, [FromBody] DeliveryAddressUpdateRequest request, [FromServices] IRepositoryEvent<Order> repository) =>
 {
     var addressUpdate = new OrderAddressUpdate
     {
@@ -78,13 +64,12 @@ app.MapPost("order/{orderid:guid}/Address", async ([FromRoute] Guid orderId, [Fr
         DeliveryAddress = request.DeliveryAddress
     };
 
-    await using var session = store.LightweightSession();
-    session.Events.Append(orderId, addressUpdate);
-    await session.SaveChangesAsync();
+    await repository.AddEvent(addressUpdate, orderId);
+
     return Results.Ok();
 });
 
-app.MapPost("order/{orderid:guid}/dispatch", async ([FromRoute] Guid orderId, [FromServices] IDocumentStore store) =>
+app.MapPost("order/{orderid:guid}/dispatch", async ([FromRoute] Guid orderId, [FromServices] IRepositoryEvent<Order> repository) =>
 {
     var orderEvent = new OrderDispatched
     {
@@ -92,13 +77,12 @@ app.MapPost("order/{orderid:guid}/dispatch", async ([FromRoute] Guid orderId, [F
         DispatchedAtUtc = DateTime.UtcNow
     };
 
-    await using var session = store.LightweightSession();
-    session.Events.Append(orderId, orderEvent);
-    await session.SaveChangesAsync();
+    await repository.AddEvent(orderEvent, orderId);
+
     return Results.Ok();
 });
 
-app.MapPost("order/{orderid:guid}/outfordelivery", async ([FromRoute] Guid orderId, [FromServices] IDocumentStore store) =>
+app.MapPost("order/{orderid:guid}/outfordelivery", async ([FromRoute] Guid orderId, [FromServices] IRepositoryEvent<Order> repository) =>
 {
     var orderEvent = new OrderOutForDelivery
     {
@@ -106,12 +90,12 @@ app.MapPost("order/{orderid:guid}/outfordelivery", async ([FromRoute] Guid order
         OrderOutForDeliveryAtUtc = DateTime.UtcNow
     };
 
-    await using var session = store.LightweightSession();
-    session.Events.Append(orderId, orderEvent);
-    await session.SaveChangesAsync();
+
+    await repository.AddEvent(orderEvent, orderId);
+
     return Results.Ok();
 });
-app.MapPost("order/{orderid:guid}/delivered", async ([FromRoute] Guid orderId, [FromServices] IDocumentStore store) =>
+app.MapPost("order/{orderid:guid}/delivered", async ([FromRoute] Guid orderId, [FromServices] IRepositoryEvent<Order> repository) =>
 {
     var orderEvent = new OrderDelivered
     {
@@ -119,9 +103,8 @@ app.MapPost("order/{orderid:guid}/delivered", async ([FromRoute] Guid orderId, [
         DeliveredAtUtc = DateTime.UtcNow
     };
 
-    await using var session = store.LightweightSession();
-    session.Events.Append(orderId, orderEvent);
-    await session.SaveChangesAsync();
+    await repository.AddEvent(orderEvent, orderId);
+
     return Results.Ok();
 });
 
