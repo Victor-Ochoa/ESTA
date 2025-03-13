@@ -34,4 +34,10 @@ public class OrderProjection : SingleStreamProjection<Order>
     {
         order.DeliveryAddress = addressUpdate.DeliveryAddress;
     }
+
+    public void Apply(OrderEnrichment enrichment, Order order)
+    {
+        order.OrderStatus = EOrderStatus.Approved;
+        order.Products = enrichment.OrderItems;
+    }
 }

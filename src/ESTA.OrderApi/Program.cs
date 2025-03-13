@@ -3,7 +3,11 @@ using ESTA.Domain.Order.Event;
 using ESTA.OrderApi.Request;
 using Microsoft.AspNetCore.Mvc;
 using ESTA.Shared.EventData;
+using ESTA.Shared.Data;
 using ESTA.Domain.Shared.Contract.Repository;
+using Hangfire;
+using ESTA.Shared.Service.Order;
+using ESTA.Domain.Shared.Contract.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +16,18 @@ var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
 
 builder.AddEventRepository();
+
+builder.AddAdminRepository();
+
+builder.Services.AddTransient<IOrderService, OrderService>();
+
+builder.Services.AddHangfire(x =>
+{
+    x.UseSimpleAssemblyNameTypeSerializer()
+        .UseRecommendedSerializerSettings()
+        .UseInMemoryStorage();
+});
+builder.Services.AddHangfireServer();
 
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
@@ -27,6 +43,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseHangfireDashboard();
 
 app.MapGet("orders", async ([FromServices] IRepositoryEvent<Order> repository) =>
 {
@@ -53,7 +71,11 @@ app.MapPost("order", async ([FromServices] IRepositoryEvent<Order> repository, [
         DeliveryAddress = request.DeliveryAddress
     };
 
-    return Results.Ok(await repository.Create(order, order.Id));
+    var orderEvent = await repository.Create(order, order.Id);
+
+    BackgroundJob.Enqueue<IOrderService>(x => x.EnrichmentOrderAsync(order.Id));
+
+    return Results.Ok(orderEvent);
 });
 
 app.MapPost("order/{orderid:guid}/Address", async ([FromRoute] Guid orderId, [FromBody] DeliveryAddressUpdateRequest request, [FromServices] IRepositoryEvent<Order> repository) =>
