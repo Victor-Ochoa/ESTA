@@ -1,4 +1,4 @@
-# Event Sourcing System with Marten and Aspire
+# Event Sourcing System with Marten, Aspire and Hangfire
 
 This project is a study of Event Sourcing using Marten and Aspire. It demonstrates how to implement an Event Sourcing system in .NET 9.
 
@@ -11,6 +11,7 @@ Event Sourcing is a pattern where state changes are logged as a sequence of even
 - **.NET 9**
 - **Marten**: A library for .NET that provides event sourcing and document database capabilities.
 - **Aspire**: A tool for managing system infrastructure.
+- **Hangfire**: A tool for background jobs.
 
 ## Project Structure
 
@@ -25,14 +26,15 @@ Event Sourcing is a pattern where state changes are logged as a sequence of even
 - **ESTA.Domain.Admin**: Contains domain models for admin functionalities.
 
 ### Others
-- **ESTA.Shared.EventData**: Contains event data handling and repository implementations.
+- **ESTA.Shared.EventData**: Contains event data handling and repository implementations for events.
 - **ESTA.Shared.Data**: Contains shared data handling functionalities.
+- **ESTA.Shared.Service.Order**: Contains service for orders.
 - **ESTA.ServiceDefaults**: Contains default service configurations.
 
 
 ## Conclusion
 
-This project serves as a practical example of implementing Event Sourcing in .NET using Marten and Aspire. It showcases the benefits of event sourcing and provides a solid foundation for further development.
+This project serves as a practical example of implementing Event Sourcing in .NET using Marten, Aspire and Hangfire. It showcases the benefits of event sourcing and provides a solid foundation for further development.
 
 Feel free to explore the code and reach out if you have any questions or suggestions.
 
